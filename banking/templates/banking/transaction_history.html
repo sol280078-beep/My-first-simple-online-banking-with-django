@@ -1,0 +1,75 @@
+{% extends 'banking/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Transaction History</h2>
+            <div>
+                <select id="transaction-filter" class="form-select" style="width: auto; margin: 8px;
+                border-radius: 5px;
+                padding: 4px; background: #686464ff; color: aliceblue;">
+                    <option value="all">All Transactions</option>
+                    <option value="deposit">Deposits</option>
+                    <option value="withdrawal">Withdrawals</option>
+                    <option value="transfer">Transfers</option>
+                </select>
+            </div>
+        </div>
+        
+        {% if transactions %}
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="transaction-table" class="table table-striped">
+                        <thead style="background-color: coral;">
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>From/To Account</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td>{{ transaction.timestamp|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <span class="badge
+                                        {% if transaction.type == 'deposit' %}badge-deposit
+                                        {% elif transaction.type == 'withdrawal' %}badge-withdrawal
+                                        {% else %}badge-transfer{% endif %}">
+                                        {{ transaction.get_type_display }}
+                                    </span>
+                                </td>
+                                <td>${{ transaction.amount }}</td>
+                                <td>{{ transaction.description }}</td>
+                                <td>
+                                    {% if transaction.from_account %}
+                                        From: {{ transaction.from_account }}
+                                    {% elif transaction.to_account %}
+                                        To: {{ transaction.to_account }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            No transactions found.
+        </div>
+        {% endif %}
+        
+        <div class="mt-3">
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

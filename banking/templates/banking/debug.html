@@ -1,0 +1,25 @@
+{% extends 'banking/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Debug Information</h4>
+    </div>
+    <div class="card-body">
+        <h5>Session Data:</h5>
+        <pre>{{ request.session }}</pre>
+        
+        <h5>User ID in Session:</h5>
+        <p>{{ request.session.user_id }}</p>
+        
+        <h5>User from Database:</h5>
+        <pre>{{ user }}</pre>
+        
+        <h5>Accounts:</h5>
+        <pre>{{ accounts }}</pre>
+        
+        <h5>Form Data:</h5>
+        <pre>{{ form_data }}</pre>
+    </div>
+</div>
+{% endblock %}

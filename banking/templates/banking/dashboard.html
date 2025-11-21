@@ -1,0 +1,58 @@
+{% extends 'banking/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="dashboard-welcome">
+            <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
+            <p>Here's your account summary</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for account in accounts %}
+    <div class="col-md-8 mx-auto">
+        <div class="account-summary">
+            <h3>Account Summary</h3>
+            <div class="balance-display">
+                ${{ account.balance }}
+            </div>
+            <div class="account-details">
+                <div class="account-detail-item">
+                    <strong>Account Number</strong>
+                    <span class="account-number">{{ account.get_formatted_account_number }}</span>
+                </div>
+                <div class="account-detail-item">
+                    <strong>Account Type</strong>
+                    <span>{{ account.get_account_type_display }}</span>
+                </div>
+                <div class="account-detail-item">
+                    <strong>Created</strong>
+                    <span>{{ account.created_at|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="quick-actions">
+                    <a href="{% url 'deposit' %}" class="btn btn-success">Deposit</a>
+                    <a href="{% url 'withdraw' %}" class="btn btn-warning">Withdraw</a>
+                    <a href="{% url 'transfer' %}" class="btn btn-info">Transfer</a>
+                    {% comment %} <a href="{% url 'transfer' %}" class="btn btn-info" style="background: #548bc1 !important; color: #fff;">Transfer</a> {% endcomment %}
+                    <a href="{% url 'transaction_history' %}" class="btn btn-secondary">View History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

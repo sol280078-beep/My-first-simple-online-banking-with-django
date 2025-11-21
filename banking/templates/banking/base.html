@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Banking System</title>
+    
+    <!-- Local CSS -->
+    {% load static %}
+    <link href="{% static 'banking/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">
+                💰 Online Banking
+            </a>
+            
+            {% if request.session.user_id %}
+            <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                <a class="nav-link" href="{% url 'deposit' %}">Deposit</a>
+                <a class="nav-link" href="{% url 'withdraw' %}">Withdraw</a>
+                <a class="nav-link" href="{% url 'transfer' %}">Transfer</a>
+                <a class="nav-link" href="{% url 'transaction_history' %}">History</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade-in">
+                    {{ message }}
+                    <button type="button" class="btn-close" style="" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Local JavaScript -->
+    <script src="{% static 'banking/js/script.js' %}"></script>
+</body>
+</html>
